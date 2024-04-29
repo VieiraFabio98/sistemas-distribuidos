@@ -5,25 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="15784023-d278-4da5-b0f7-d2705c7b8f16" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/sistemas/cliente/Cliente.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/sistemas/cliente/ClienteHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/sistemas/cliente/Login.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/sistemas/cliente/Logout.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/sistemas/cliente/Requisicao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/sistemas/servidor/ServidorTCP.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/sistemas/servidor/dao/CandidatoDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/sistemas/servidor/db/BancoDados.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/sistemas/servidor/entities/Candidato.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/sistemas/servidor/entities/Response.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/sistemas/servidor/handler/HandleRequisitions.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/bancodados/BancoDadosTeste.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/sistemas/cliente/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sistemas/cliente/Cliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/sistemas/servidor/ServidorTCP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sistemas/servidor/ServidorTCP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/sistemas/servidor/dao/CandidatoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sistemas/servidor/dao/CandidatoDAO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +43,7 @@
     &quot;Application.Cliente.executor&quot;: &quot;Run&quot;,
     &quot;Application.ServidorTCP.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;onboarding.tips.debug.path&quot;: &quot;/Users/alves/IdeaProjects/Servidor/src/main/java/sistemas/Main.java&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
@@ -65,7 +51,7 @@
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.Cliente">
+  <component name="RunManager" selected="Application.ServidorTCP">
     <configuration name="BancoDadosTeste" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="bancodados.BancoDadosTeste" />
       <module name="Servidor" />
@@ -107,8 +93,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Cliente" />
         <item itemvalue="Application.ServidorTCP" />
+        <item itemvalue="Application.Cliente" />
         <item itemvalue="Application.BancoDadosTeste" />
       </list>
     </recent_temporary>

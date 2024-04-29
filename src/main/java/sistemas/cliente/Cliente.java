@@ -1,125 +1,127 @@
 package sistemas.cliente;
 
 import com.google.gson.Gson;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import sistemas.cliente.entities.Login;
 import sistemas.cliente.entities.Logout;
 import sistemas.cliente.entities.Requisicao;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
+
 public class Cliente {
     public static void main(String[] args) throws Exception {
-        String serverAddress = "192.168.1.9";
-        int serverPort = 22222;
-        Socket clientSocket = new Socket(serverAddress, serverPort);
-        Scanner scanner = new Scanner(System.in);
-        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+        try {
+//            10.20.8.150
+            String serverAddress = "10.20.8.161";
+            int serverPort = 22222;
+            Socket clientSocket = new Socket(serverAddress, serverPort);
+            Scanner scanner = new Scanner(System.in);
+            JSONParser parser = new JSONParser();
+            Gson gson = new Gson();
+//            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+//            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
 
-        System.out.println("1.Login - 2.Logout - 3.Cadastrar - 4.Visualizar - 5.Atualizar - 6.Deletar");
+//            System.out.println("1.Login - 2.Logout - 3.Cadastrar - 4.Visualizar - 5.Atualizar - 6.Deletar");
 
-        Gson gson = new Gson();
-        String token;
-        int opcao = scanner.nextInt();
-        Requisicao requisicao = new Requisicao();
+            Requisicao requisicao = new Requisicao();
+            String token = "";
+            while(true) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+                System.out.println("1.Login - 2.Logout - 3.Cadastrar - 4.Visualizar - 5.Atualizar - 6.Deletar");
+                int opcao = scanner.nextInt();
+                String email, nome, senha;
+                switch (opcao){
+                    case 1:
+                        Login login = new Login();
+                        System.out.println("Email: ");
+                        scanner.nextLine();
+                        email = scanner.nextLine();
+                        System.out.println("Senha: ");
+                        senha = scanner.nextLine();
+                        login.setEmail(email);
+                        login.setSenha(senha);
+                        login.setOperacao("loginCandidato");
+                        out.println(gson.toJson(login));
+                        break;
 
-        switch (opcao){
-            case 1:
-                Login login = new Login();
-                login.setEmail("vieirafabio5271@gmail.com");
-                login.setSenha("123456");
-                login.setOperacao("loginCandidato");
-                out.println(gson.toJson(login));
-                break;
+                    case 2:
+                        Logout logout = new Logout();
+                        logout.setOperacao("logout");
+                        logout.setToken(token);
+                        out.println(gson.toJson(logout));
+                        break;
 
-            case 2:
-                Logout logout = new Logout();
-                logout.setOperacao("logout");
-                logout.setToken("bb690f48-47cf-47c2-8c0b-4d9d98eacf24");
-                out.println(gson.toJson(logout));
-                break;
+                    case 3:
+                        System.out.println("Nome: ");
+                        scanner.nextLine();
+                        nome = scanner.nextLine();
+                        System.out.println("Email: ");
+                        email = scanner.nextLine();
+                        System.out.println("Senha: ");
+                        senha = scanner.nextLine();
+                        requisicao.setNome(nome);
+                        requisicao.setEmail(email);
+                        requisicao.setSenha(senha);
+                        requisicao.setOperacao("cadastrarCandidato");
+                        out.println(gson.toJson(requisicao));
+                        break;
 
-            case 3:
-                requisicao.setNome("Marcelly");
-                requisicao.setEmail("marcellyalemar@gmail.com");
-                requisicao.setSenha("123");
-                requisicao.setOperacao("cadastrarCandidato");
-                out.println(gson.toJson(requisicao));
-                break;
 
-            case 4:
-                requisicao.setEmail("marcellyalemar@gmail.com");
-                requisicao.setOperacao("visualizarCandidato");
-                out.println(gson.toJson(requisicao));
-                break;
+                    case 4:
+                        requisicao.setEmail("vieirafabio5271@gmail.com");
+                        requisicao.setOperacao("visualizarCandidato");
+                        out.println(gson.toJson(requisicao));
+                        break;
 
-            case 5:
-                requisicao.setOperacao("atualizarCandidato");
-                requisicao.setEmail("marcellyalemar@gmail.comm");
-                requisicao.setNome("Marcelly Alemar");
-                requisicao.setSenha("789");
-                out.println(gson.toJson(requisicao));
-                break;
+                    case 5:
+                        System.out.println("Nome: ");
+                        scanner.nextLine();
+                        nome = scanner.nextLine();
+                        System.out.println("Email: ");
+                        email = scanner.nextLine();
+                        System.out.println("Senha: ");
+                        senha = scanner.nextLine();
+                        requisicao.setNome(nome);
+                        requisicao.setEmail(email);
+                        requisicao.setSenha(senha);
+                        requisicao.setOperacao("atualizarCandidato");
+                        out.println(gson.toJson(requisicao));
+                        break;
 
-            case 6:
-                requisicao.setOperacao("apagarCandidato");
-                requisicao.setEmail("marcellyalemar@gmail.com");
-                out.println(gson.toJson(requisicao));
-                break;
+                    case 6:
+                        requisicao.setOperacao("apagarCandidato");
+                        requisicao.setEmail("vieirafabio5271@gmail.com");
+                        out.println(gson.toJson(requisicao));
+                        break;
 
-            default:
-                System.out.println("Opção inválida!");
-                break;
+                    case 7:
+                        clientSocket.close();
+                        return;
+
+                    default:
+                        System.out.println("Opção inválida!");
+                        break;
+                }
+                String mensagemRecebida = in.readLine();
+                if (mensagemRecebida.contains("token")){
+                    JSONObject jsonObject = (JSONObject) parser.parse(mensagemRecebida);
+                    token = (String) jsonObject.get("token");
+                    System.out.print(token);
+                }
+                System.out.println("Mensagem do servidor: " + mensagemRecebida);
+//                out.close();
+//                in.close();
+            }
+        } catch(IOException e) {
+            e.printStackTrace();
         }
-
-        String mensagemRecebida = in.readLine();
-        System.out.println("Resposta do servidor: " + mensagemRecebida);
-
-//        do {
-//           opcao = scanner.nextInt();
-//           System.out.println(opcao + "opcao");
-//
-//            switch (opcao){
-//                case 1:
-//                    Login login = new Login();
-//                    login.setEmail("vieirafabio5271@gmail.com");
-//                    login.setSenha("123456");
-//                    login.setOperacao("loginCandidato");
-//                    out.println(gson.toJson(login));
-//                    break;
-//
-//                case 2:
-//                    Logout logout = new Logout();
-//                    logout.setOperacao("logout");
-//                    logout.setToken("bb690f48-47cf-47c2-8c0b-4d9d98eacf24");
-//                    out.println(gson.toJson(logout));
-//                    break;
-//
-//                case 3:
-//                    Requisicao requisicao = new Requisicao();
-//                    requisicao.setNome("Marcelly");
-//                    requisicao.setEmail("marcellyalemar@gmail.com");
-//                    requisicao.setSenha("123");
-//                    requisicao.setOperacao("cadastrarCandidato");
-//                    out.println(gson.toJson(requisicao));
-//                    break;
-//
-//                default:
-//                    System.out.println("Opção inválida!");
-//                    break;
-//            }
-//
-//            String mensagemRecebida = in.readLine();
-//            System.out.println("Resposta do servidor: " + mensagemRecebida);
-//
-//        }while(opcao != 2);
-
-        out.close();
-        in.close();
-        clientSocket.close();
     }
 }

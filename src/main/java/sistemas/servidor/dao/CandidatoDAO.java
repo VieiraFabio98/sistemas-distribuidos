@@ -29,7 +29,6 @@ public class CandidatoDAO {
             response.setOperacao("cadastrarCandidato");
             response.setStatus(422);
             response.setMensagem("E-mail já cadastrado");
-
             return gson.toJson(response);
         }
 
@@ -38,17 +37,22 @@ public class CandidatoDAO {
             st.setString(1, candidato.getNome());
             st.setString(2, candidato.getEmail());
             st.setString(3, candidato.getSenha());
-
             st.executeUpdate();
-        } finally {
+
+            response.setOperacao("cadastrarCandidato");
+            response.setStatus(201);
+            response.setToken(uuid.toString());
+
+        } catch (SQLException e) {
+            response.setOperacao("cadastrarCandidato");
+            response.setStatus(404);
+            response.setMensagem("");
+        }
+            finally {
             BancoDados.finalizarStatement(st);
             BancoDados.desconectar();
         }
 
-        response.setOperacao("cadastrarCandidato");
-        response.setStatus(201);
-        response.setToken(uuid.toString());
-        System.out.println(gson.toJson(response));
         return gson.toJson(response);
     }
 
@@ -74,7 +78,7 @@ public class CandidatoDAO {
 
             rs = st.executeQuery();
 
-            if (rs.next()) { // Verifica se o ResultSet tem resultados
+            if (rs.next()) {
                 response.setOperacao("visualizarCandidato");
                 response.setStatus(201);
                 response.setNome(rs.getString("nome"));
@@ -100,8 +104,6 @@ public class CandidatoDAO {
         ResultSet rs = null;
 
         int candidatoId = -1;
-
-        System.out.println(candidato.getEmail());
 
         try {
             st = conn.prepareStatement("select * from candidato where email = ?");
@@ -130,6 +132,8 @@ public class CandidatoDAO {
         ResultSet rs = null;
 
         int candidatoId = -1;
+
+        System.out.println(candidato.getToken() + "token");
 
         try {
             st = conn.prepareStatement("select * from candidato where token = ?");
@@ -247,10 +251,11 @@ public class CandidatoDAO {
 
     public String logout(Candidato candidato) throws SQLException {
         int candidatoId = getCandidatoByToken(candidato);
+
         Gson gson = new Gson();
         Response response = new Response();
 
-        if(candidatoId == -1){
+        if(candidatoId == -1 ){
             System.out.print("Nenhum candidato encontrado.");
             return "nenhum candidato encontrado";
         }
