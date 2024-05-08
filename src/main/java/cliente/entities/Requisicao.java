@@ -1,4 +1,4 @@
-package sistemas.cliente.entities;
+package cliente.entities;
 
 public class Requisicao {
     private String nome;

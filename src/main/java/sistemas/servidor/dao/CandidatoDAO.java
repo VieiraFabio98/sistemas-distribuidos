@@ -25,6 +25,8 @@ public class CandidatoDAO {
         Gson gson = new Gson();
         UUID uuid = UUID.randomUUID();
 
+        String token = uuid.toString();
+
         if(candidatoId != -1){
             response.setOperacao("cadastrarCandidato");
             response.setStatus(422);
@@ -32,16 +34,31 @@ public class CandidatoDAO {
             return gson.toJson(response);
         }
 
+        if(candidato.getSenha().length() < 3 || candidato.getSenha().length() > 8) {
+            response.setOperacao("cadastrarCandidato");
+            response.setStatus(404);
+            response.setMensagem("senha nao permitida");
+            return gson.toJson(response);
+        }
+
+        if((!candidato.getEmail().contains("@")) || !candidato.getEmail().endsWith(".com")){
+            response.setOperacao("cadastrarCandidato");
+            response.setStatus(404);
+            response.setMensagem("E-mail inválido");
+            return gson.toJson(response);
+        }
+
         try{
-            st = conn.prepareStatement("insert into candidato(nome, email, senha) values(?,?,?)");
+            st = conn.prepareStatement("insert into candidato(nome, email, senha, token) values(?,?,?,?)");
             st.setString(1, candidato.getNome());
             st.setString(2, candidato.getEmail());
             st.setString(3, candidato.getSenha());
+            st.setString(4, token);
             st.executeUpdate();
 
             response.setOperacao("cadastrarCandidato");
             response.setStatus(201);
-            response.setToken(uuid.toString());
+            response.setToken(token);
 
         } catch (SQLException e) {
             response.setOperacao("cadastrarCandidato");
@@ -58,6 +75,7 @@ public class CandidatoDAO {
 
     public String visualizar(Candidato candidato) throws SQLException {
         int candidatoId = getCandidato(candidato);
+        int isLogado = isCandidatoLogado(candidato);
         Response response = new Response();
         Gson gson = new Gson();
 
@@ -66,6 +84,13 @@ public class CandidatoDAO {
             response.setOperacao("visualizarCandidato");
             response.setStatus(404);
             response.setMensagem("E-mail não encontrado");
+            return gson.toJson(response);
+        }
+
+        if(isLogado == 0){
+            response.setOperacao("visualizarCandidato");
+            response.setStatus(401);
+            response.setMensagem("Usuário não autenticado");
             return gson.toJson(response);
         }
 
@@ -133,8 +158,6 @@ public class CandidatoDAO {
 
         int candidatoId = -1;
 
-        System.out.println(candidato.getToken() + "token");
-
         try {
             st = conn.prepareStatement("select * from candidato where token = ?");
             st.setString(1, candidato.getToken());
@@ -153,6 +176,30 @@ public class CandidatoDAO {
         return candidatoId;
     }
 
+    public int isCandidatoLogado(Candidato candidato) throws SQLException {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        int logado = 0;
+
+        try {
+            st = conn.prepareStatement("select logado from candidato where email = ?");
+            st.setString(1, candidato.getEmail());
+
+            rs = st.executeQuery();
+
+            if(rs.next()){
+                logado = rs.getInt("logado");
+            } else {
+                System.out.println("Candidato nao está logado");
+            }
+        } finally {
+            BancoDados.finalizarStatement(st);
+            BancoDados.finalizarResultSet(rs);
+        }
+        return logado;
+    }
+
     public String atualizar(Candidato candidato) throws SQLException {
         int candidatoId = getCandidato(candidato);
         Response response = new Response();
@@ -163,6 +210,20 @@ public class CandidatoDAO {
             response.setOperacao("atualizarCandidato");
             response.setStatus(404);
             response.setMensagem("E-mail não encontrado");
+            return gson.toJson(response);
+        }
+
+        if(candidato.getSenha().length() < 3 || candidato.getSenha().length() > 8) {
+            response.setOperacao("cadastrarCandidato");
+            response.setStatus(404);
+            response.setMensagem("senha nao permitida");
+            return gson.toJson(response);
+        }
+
+        if((!candidato.getEmail().contains("@")) || !candidato.getEmail().endsWith(".com")){
+            response.setOperacao("cadastrarCandidato");
+            response.setStatus(404);
+            response.setMensagem("E-mail inválido");
             return gson.toJson(response);
         }
 

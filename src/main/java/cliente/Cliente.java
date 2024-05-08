@@ -1,11 +1,11 @@
-package sistemas.cliente;
+package cliente;
 
 import com.google.gson.Gson;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import sistemas.cliente.entities.Login;
-import sistemas.cliente.entities.Logout;
-import sistemas.cliente.entities.Requisicao;
+import cliente.entities.Login;
+import cliente.entities.Logout;
+import cliente.entities.Requisicao;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,17 +18,13 @@ import java.util.Scanner;
 public class Cliente {
     public static void main(String[] args) throws Exception {
         try {
-//            10.20.8.150
-            String serverAddress = "10.20.8.161";
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Informe o ip do servidor: ");
+            String serverAddress = scanner.nextLine();
             int serverPort = 22222;
             Socket clientSocket = new Socket(serverAddress, serverPort);
-            Scanner scanner = new Scanner(System.in);
             JSONParser parser = new JSONParser();
             Gson gson = new Gson();
-//            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-//            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-
-//            System.out.println("1.Login - 2.Logout - 3.Cadastrar - 4.Visualizar - 5.Atualizar - 6.Deletar");
 
             Requisicao requisicao = new Requisicao();
             String token = "";
@@ -76,8 +72,12 @@ public class Cliente {
 
 
                     case 4:
-                        requisicao.setEmail("vieirafabio5271@gmail.com");
+                        System.out.println("Email: ");
+                        scanner.nextLine();
+                        email = scanner.nextLine();
+                        System.out.println(email);
                         requisicao.setOperacao("visualizarCandidato");
+                        requisicao.setEmail(email);
                         out.println(gson.toJson(requisicao));
                         break;
 
@@ -97,12 +97,16 @@ public class Cliente {
                         break;
 
                     case 6:
+                        System.out.println("Email: ");
+                        scanner.nextLine();
+                        email = scanner.nextLine();
+                        requisicao.setEmail(email);
                         requisicao.setOperacao("apagarCandidato");
-                        requisicao.setEmail("vieirafabio5271@gmail.com");
                         out.println(gson.toJson(requisicao));
                         break;
 
                     case 7:
+                        out.println("");
                         clientSocket.close();
                         return;
 

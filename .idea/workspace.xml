@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="15784023-d278-4da5-b0f7-d2705c7b8f16" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/sistemas/cliente/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sistemas/cliente/Cliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/sistemas/cliente/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cliente/Cliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/sistemas/cliente/entities/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cliente/entities/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/sistemas/cliente/entities/Logout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cliente/entities/Logout.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/sistemas/cliente/entities/Requisicao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cliente/entities/Requisicao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/sistemas/servidor/ServidorTCP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sistemas/servidor/ServidorTCP.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/sistemas/servidor/dao/CandidatoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sistemas/servidor/dao/CandidatoDAO.java" afterDir="false" />
     </list>
@@ -41,7 +43,9 @@
   &quot;keyToString&quot;: {
     &quot;Application.BancoDadosTeste.executor&quot;: &quot;Run&quot;,
     &quot;Application.Cliente.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ClienteGUI.executor&quot;: &quot;Run&quot;,
     &quot;Application.ServidorTCP.executor&quot;: &quot;Run&quot;,
+    &quot;Application.cliente.Cliente.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
@@ -51,7 +55,12 @@
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.ServidorTCP">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/cliente" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.cliente.Cliente">
     <configuration name="BancoDadosTeste" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="bancodados.BancoDadosTeste" />
       <module name="Servidor" />
@@ -66,11 +75,24 @@
       </method>
     </configuration>
     <configuration name="Cliente" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="sistemas.cliente.Cliente" />
+      <option name="MAIN_CLASS_NAME" value="cliente.entities.Cliente" />
       <module name="Servidor" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="sistemas.cliente.entities.*" />
+          <option name="PATTERN" value="cliente.entities.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ClienteGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="sistemas.cliente.ClienteGUI" />
+      <module name="Servidor" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cliente.entities.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -91,9 +113,24 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="cliente.Cliente" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cliente.Cliente" />
+      <module name="Servidor" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cliente.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.cliente.Cliente" />
         <item itemvalue="Application.ServidorTCP" />
+        <item itemvalue="Application.ClienteGUI" />
         <item itemvalue="Application.Cliente" />
         <item itemvalue="Application.BancoDadosTeste" />
       </list>

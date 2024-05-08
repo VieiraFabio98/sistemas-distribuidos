@@ -25,7 +25,7 @@ public class ServidorTCP {
             while (serverOn) {
 //                PrintWriter out = new PrintWriter(connectionSocket.getOutputStream(), true);
                 String jsonCliente = in.readLine();
-                System.out.println(jsonCliente + "jsonCliente");
+                System.out.println("Mensagem do Cliente: " + jsonCliente);
 
                 String response = jsonCliente;
 
@@ -54,7 +54,11 @@ public class ServidorTCP {
                     response = handle.visualizarCandidato(jsonCliente);
                 }
 
-                System.out.println(response + "response");
+                if(jsonCliente.isEmpty()) {
+                    break;
+                }
+
+                System.out.println(response);
                 out.println(response);
 //                outClient.writeBytes(response);
 //                in.close();
