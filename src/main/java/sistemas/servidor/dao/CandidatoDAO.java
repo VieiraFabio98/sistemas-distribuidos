@@ -37,23 +37,45 @@ public class CandidatoDAO {
         if(candidato.getSenha().length() < 3 || candidato.getSenha().length() > 8) {
             response.setOperacao("cadastrarCandidato");
             response.setStatus(404);
-            response.setMensagem("senha nao permitida");
+            response.setMensagem("Senha não permitida");
             return gson.toJson(response);
         }
 
-        if((!candidato.getEmail().contains("@")) || !candidato.getEmail().endsWith(".com")){
+        if(candidato.getEmail().length() < 7 || candidato.getEmail().length() > 50) {
+            response.setOperacao("cadastrarCandidato");
+            response.setStatus(404);
+            response.setMensagem("Mínimo ou Máximo de caracteres do email não atingidos.");
+            return gson.toJson(response);
+        }
+
+        if((!candidato.getEmail().contains("@"))){
             response.setOperacao("cadastrarCandidato");
             response.setStatus(404);
             response.setMensagem("E-mail inválido");
             return gson.toJson(response);
         }
 
+        if(!candidato.getNome().matches("^[a-zA-ZÀ-ÿ\\s]+$")) {
+            response.setOperacao("cadastrarCandidato");
+            response.setStatus(404);
+            response.setMensagem("Nome invalido");
+            return gson.toJson(response);
+        }
+
+        if (!candidato.getSenha().matches("^[0-9]+$")) {
+            response.setOperacao("cadastrarCandidato");
+            response.setStatus(404);
+            response.setMensagem("Senha inválida. Deve conter apenas números.");
+            return new Gson().toJson(response);
+        }
+
         try{
-            st = conn.prepareStatement("insert into candidato(nome, email, senha, token) values(?,?,?,?)");
+            st = conn.prepareStatement("insert into candidato(nome, email, senha, logado,token) values(?,?,?,?,?)");
             st.setString(1, candidato.getNome());
             st.setString(2, candidato.getEmail());
             st.setString(3, candidato.getSenha());
-            st.setString(4, token);
+            st.setInt(4, 1);
+            st.setString(5, token);
             st.executeUpdate();
 
             response.setOperacao("cadastrarCandidato");
@@ -191,7 +213,7 @@ public class CandidatoDAO {
             if(rs.next()){
                 logado = rs.getInt("logado");
             } else {
-                System.out.println("Candidato nao está logado");
+                System.out.println("Candidato não está logado");
             }
         } finally {
             BancoDados.finalizarStatement(st);
@@ -202,6 +224,7 @@ public class CandidatoDAO {
 
     public String atualizar(Candidato candidato) throws SQLException {
         int candidatoId = getCandidato(candidato);
+        int isLogado = isCandidatoLogado(candidato);
         Response response = new Response();
         Gson gson = new Gson();
 
@@ -220,10 +243,31 @@ public class CandidatoDAO {
             return gson.toJson(response);
         }
 
-        if((!candidato.getEmail().contains("@")) || !candidato.getEmail().endsWith(".com")){
+        if((!candidato.getEmail().contains("@"))){
             response.setOperacao("cadastrarCandidato");
             response.setStatus(404);
             response.setMensagem("E-mail inválido");
+            return gson.toJson(response);
+        }
+
+        if(!candidato.getNome().matches("^[a-zA-ZÀ-ÿ\\s]+$")) {
+            response.setOperacao("cadastrarCandidato");
+            response.setStatus(404);
+            response.setMensagem("Nome invalido");
+            return gson.toJson(response);
+        }
+
+        if (!candidato.getSenha().matches("^[0-9]+$")) {
+            response.setOperacao("cadastrarCandidato");
+            response.setStatus(404);
+            response.setMensagem("Senha inválida. Deve conter apenas números.");
+            return new Gson().toJson(response);
+        }
+
+        if(isLogado == 0){
+            response.setOperacao("visualizarCandidato");
+            response.setStatus(401);
+            response.setMensagem("Usuário não autenticado");
             return gson.toJson(response);
         }
 
@@ -249,6 +293,7 @@ public class CandidatoDAO {
 
     public String excluirCandidato(Candidato candidato) throws SQLException {
         int candidatoId = getCandidato(candidato);
+        int isLogado = isCandidatoLogado(candidato);
         Response response = new Response();
         Gson gson = new Gson();
 
@@ -257,6 +302,13 @@ public class CandidatoDAO {
             response.setOperacao("apagarCandidato");
             response.setStatus(404);
             response.setMensagem("E-mail não encontrado");
+            return gson.toJson(response);
+        }
+
+        if(isLogado == 0){
+            response.setOperacao("visualizarCandidato");
+            response.setStatus(401);
+            response.setMensagem("Usuário não autenticado");
             return gson.toJson(response);
         }
 
@@ -278,6 +330,7 @@ public class CandidatoDAO {
 
     public String login(Candidato candidato) throws SQLException {
         int candidatoId = getCandidato(candidato);
+        int isLogado = isCandidatoLogado(candidato);
         UUID uuid = UUID.randomUUID();
         Response response = new Response();
         Gson gson = new Gson();
@@ -287,6 +340,13 @@ public class CandidatoDAO {
             response.setStatus(401);
             response.setMensagem("Login ou senha incorretos");
             System.out.println(gson.toJson(response));
+            return gson.toJson(response);
+        }
+
+        if(isLogado == 1){
+            response.setOperacao("visualizarCandidato");
+            response.setStatus(401);
+            response.setMensagem("Usuário já autenticado");
             return gson.toJson(response);
         }
 

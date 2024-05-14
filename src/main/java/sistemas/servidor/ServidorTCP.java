@@ -5,19 +5,28 @@ import sistemas.servidor.handler.HandleRequisitions;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 
 public class ServidorTCP {
 
+    private static ServerSocket serverSocket;
+
     public static void main(String[] args) throws Exception {
+        serverSocket = new ServerSocket(22222);
+        startServer();
+    }
+
+    public static void startServer() throws SQLException {
+        String host = "";
         try {
             HandleRequisitions handle = new HandleRequisitions();
-            int serverPort = 22222;
+//            int serverPort = 22222;
 
-            ServerSocket serverSocket = new ServerSocket(serverPort);
             System.out.println("Servidor TCP esperando por conexões...");
             Socket connectionSocket = serverSocket.accept();
             boolean serverOn = true;
-            System.out.println("Conexão estabelecida com cliente: " + connectionSocket.getInetAddress().getHostAddress());
+            host = connectionSocket.getInetAddress().getHostAddress();
+            System.out.println("Conexão estabelecida com cliente: " + host);
             BufferedReader in = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
             DataOutputStream outClient = new DataOutputStream(connectionSocket.getOutputStream());
             PrintWriter out = new PrintWriter(connectionSocket.getOutputStream(), true);
@@ -35,7 +44,6 @@ public class ServidorTCP {
 
                 if (jsonCliente.contains("logout")) {
                     response = handle.logout(jsonCliente);
-                    serverOn = false;
                 }
 
                 if (jsonCliente.contains("cadastrarCandidato")) {
@@ -58,7 +66,7 @@ public class ServidorTCP {
                     break;
                 }
 
-                System.out.println(response);
+                System.out.println("Responsta do servidor: " + response);
                 out.println(response);
 //                outClient.writeBytes(response);
 //                in.close();
@@ -68,7 +76,8 @@ public class ServidorTCP {
             outClient.close();
             connectionSocket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.print("Conexão finalizada - " + host + "\n");
+            startServer();
         }
     }
 

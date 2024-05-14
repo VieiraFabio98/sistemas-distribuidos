@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="15784023-d278-4da5-b0f7-d2705c7b8f16" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/sistemas/cliente/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cliente/Cliente.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/sistemas/cliente/entities/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cliente/entities/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/sistemas/cliente/entities/Logout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cliente/entities/Logout.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/sistemas/cliente/entities/Requisicao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cliente/entities/Requisicao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cliente/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cliente/Cliente.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/sistemas/servidor/ServidorTCP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sistemas/servidor/ServidorTCP.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/sistemas/servidor/dao/CandidatoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sistemas/servidor/dao/CandidatoDAO.java" afterDir="false" />
     </list>

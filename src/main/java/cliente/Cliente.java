@@ -28,12 +28,15 @@ public class Cliente {
 
             Requisicao requisicao = new Requisicao();
             String token = "";
+            String  nome = "", email = "", senha = "", emailCandidato = "";
+            //implementar logica para saber se o cliente está logado
+            //turma precisa decidir oq fazer com o token
+            boolean logado = false;
             while(true) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
                 System.out.println("1.Login - 2.Logout - 3.Cadastrar - 4.Visualizar - 5.Atualizar - 6.Deletar");
                 int opcao = scanner.nextInt();
-                String email, nome, senha;
                 switch (opcao){
                     case 1:
                         Login login = new Login();
@@ -72,12 +75,8 @@ public class Cliente {
 
 
                     case 4:
-                        System.out.println("Email: ");
-                        scanner.nextLine();
-                        email = scanner.nextLine();
-                        System.out.println(email);
                         requisicao.setOperacao("visualizarCandidato");
-                        requisicao.setEmail(email);
+                        requisicao.setEmail(emailCandidato);
                         out.println(gson.toJson(requisicao));
                         break;
 
@@ -85,22 +84,20 @@ public class Cliente {
                         System.out.println("Nome: ");
                         scanner.nextLine();
                         nome = scanner.nextLine();
-                        System.out.println("Email: ");
-                        email = scanner.nextLine();
                         System.out.println("Senha: ");
                         senha = scanner.nextLine();
                         requisicao.setNome(nome);
-                        requisicao.setEmail(email);
+                        requisicao.setEmail(emailCandidato);
                         requisicao.setSenha(senha);
                         requisicao.setOperacao("atualizarCandidato");
                         out.println(gson.toJson(requisicao));
                         break;
 
                     case 6:
-                        System.out.println("Email: ");
-                        scanner.nextLine();
-                        email = scanner.nextLine();
-                        requisicao.setEmail(email);
+//                        System.out.println("Email: ");
+//                        scanner.nextLine();
+//                        email = scanner.nextLine();
+                        requisicao.setEmail(emailCandidato);
                         requisicao.setOperacao("apagarCandidato");
                         out.println(gson.toJson(requisicao));
                         break;
@@ -114,11 +111,29 @@ public class Cliente {
                         System.out.println("Opção inválida!");
                         break;
                 }
+
                 String mensagemRecebida = in.readLine();
+                JSONObject jsonObject = (JSONObject) parser.parse(mensagemRecebida);
+
                 if (mensagemRecebida.contains("token")){
-                    JSONObject jsonObject = (JSONObject) parser.parse(mensagemRecebida);
                     token = (String) jsonObject.get("token");
-                    System.out.print(token);
+                    logado = true;
+                }
+
+                if(mensagemRecebida.contains("loginCandidato")) {
+                    Long status = (Long) jsonObject.get("status");
+                    if(status == 200) {
+                        emailCandidato = email;
+                        logado = true;
+                    }
+                }
+
+                if(mensagemRecebida.contains("cadastrarCandidato")) {
+                    Long status = (Long) jsonObject.get("status");
+                    if(status == 201) {
+                        emailCandidato = email;
+                        logado = true;
+                    }
                 }
                 System.out.println("Mensagem do servidor: " + mensagemRecebida);
 //                out.close();
