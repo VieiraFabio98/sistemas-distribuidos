@@ -33,41 +33,41 @@ public class CandidatoDAO {
             response.setMensagem("E-mail já cadastrado");
             return gson.toJson(response);
         }
-
-        if(candidato.getSenha().length() < 3 || candidato.getSenha().length() > 8) {
-            response.setOperacao("cadastrarCandidato");
-            response.setStatus(404);
-            response.setMensagem("Senha não permitida");
-            return gson.toJson(response);
-        }
-
-        if(candidato.getEmail().length() < 7 || candidato.getEmail().length() > 50) {
-            response.setOperacao("cadastrarCandidato");
-            response.setStatus(404);
-            response.setMensagem("Mínimo ou Máximo de caracteres do email não atingidos.");
-            return gson.toJson(response);
-        }
-
-        if((!candidato.getEmail().contains("@"))){
-            response.setOperacao("cadastrarCandidato");
-            response.setStatus(404);
-            response.setMensagem("E-mail inválido");
-            return gson.toJson(response);
-        }
-
-        if(!candidato.getNome().matches("^[a-zA-ZÀ-ÿ\\s]+$")) {
-            response.setOperacao("cadastrarCandidato");
-            response.setStatus(404);
-            response.setMensagem("Nome invalido");
-            return gson.toJson(response);
-        }
-
-        if (!candidato.getSenha().matches("^[0-9]+$")) {
-            response.setOperacao("cadastrarCandidato");
-            response.setStatus(404);
-            response.setMensagem("Senha inválida. Deve conter apenas números.");
-            return new Gson().toJson(response);
-        }
+//
+//        if(candidato.getSenha().length() < 3 || candidato.getSenha().length() > 8) {
+//            response.setOperacao("cadastrarCandidato");
+//            response.setStatus(404);
+//            response.setMensagem("Senha não permitida");
+//            return gson.toJson(response);
+//        }
+//
+//        if(candidato.getEmail().length() < 7 || candidato.getEmail().length() > 50) {
+//            response.setOperacao("cadastrarCandidato");
+//            response.setStatus(404);
+//            response.setMensagem("Mínimo ou Máximo de caracteres do email não atingidos.");
+//            return gson.toJson(response);
+//        }
+//
+//        if((!candidato.getEmail().contains("@"))){
+//            response.setOperacao("cadastrarCandidato");
+//            response.setStatus(404);
+//            response.setMensagem("E-mail inválido");
+//            return gson.toJson(response);
+//        }
+//
+//        if(!candidato.getNome().matches("^[a-zA-ZÀ-ÿ\\s]+$")) {
+//            response.setOperacao("cadastrarCandidato");
+//            response.setStatus(404);
+//            response.setMensagem("Nome invalido");
+//            return gson.toJson(response);
+//        }
+//
+//        if (!candidato.getSenha().matches("^[0-9]+$")) {
+//            response.setOperacao("cadastrarCandidato");
+//            response.setStatus(404);
+//            response.setMensagem("Senha inválida. Deve conter apenas números.");
+//            return new Gson().toJson(response);
+//        }
 
         try{
             st = conn.prepareStatement("insert into candidato(nome, email, senha, logado,token) values(?,?,?,?,?)");
@@ -84,8 +84,8 @@ public class CandidatoDAO {
 
         } catch (SQLException e) {
             response.setOperacao("cadastrarCandidato");
-            response.setStatus(404);
-            response.setMensagem("");
+            response.setStatus(500);
+            response.setMensagem("Erro do lado do servidor");
         }
             finally {
             BancoDados.finalizarStatement(st);
@@ -102,7 +102,6 @@ public class CandidatoDAO {
         Gson gson = new Gson();
 
         if(candidatoId == -1){
-            System.out.print("Nenhum candidato encontrado.");
             response.setOperacao("visualizarCandidato");
             response.setStatus(404);
             response.setMensagem("E-mail não encontrado");
@@ -131,7 +130,6 @@ public class CandidatoDAO {
                 response.setNome(rs.getString("nome"));
                 response.setSenha(rs.getString("senha"));
             } else {
-                System.out.print("Nenhum candidato encontrado.");
                 response.setOperacao("visualizarCandidato");
                 response.setStatus(404);
                 response.setMensagem("Nenhum candidato encontrado");
@@ -160,7 +158,9 @@ public class CandidatoDAO {
 
             if (rs.next()) {
                 candidatoId = rs.getInt("id");
-            } else {
+            }
+
+            if(candidatoId != -1) {
                 System.out.println("Nenhum candidato encontrado com o email '" + candidato.getEmail() + "'.");
             }
 
@@ -171,8 +171,6 @@ public class CandidatoDAO {
 
         return candidatoId;
     }
-
-
 
     public int getCandidatoByToken(Candidato candidato) throws SQLException {
         PreparedStatement st = null;
@@ -188,8 +186,6 @@ public class CandidatoDAO {
 
             if (rs.next()) {
                 candidatoId = rs.getInt("id");
-            } else {
-                System.out.println("Nenhum candidato encontrado");
             }
         } finally {
             BancoDados.finalizarStatement(st);
@@ -236,33 +232,33 @@ public class CandidatoDAO {
             return gson.toJson(response);
         }
 
-        if(candidato.getSenha().length() < 3 || candidato.getSenha().length() > 8) {
-            response.setOperacao("cadastrarCandidato");
-            response.setStatus(404);
-            response.setMensagem("senha nao permitida");
-            return gson.toJson(response);
-        }
-
-        if((!candidato.getEmail().contains("@"))){
-            response.setOperacao("cadastrarCandidato");
-            response.setStatus(404);
-            response.setMensagem("E-mail inválido");
-            return gson.toJson(response);
-        }
-
-        if(!candidato.getNome().matches("^[a-zA-ZÀ-ÿ\\s]+$")) {
-            response.setOperacao("cadastrarCandidato");
-            response.setStatus(404);
-            response.setMensagem("Nome invalido");
-            return gson.toJson(response);
-        }
-
-        if (!candidato.getSenha().matches("^[0-9]+$")) {
-            response.setOperacao("cadastrarCandidato");
-            response.setStatus(404);
-            response.setMensagem("Senha inválida. Deve conter apenas números.");
-            return new Gson().toJson(response);
-        }
+//        if(candidato.getSenha().length() < 3 || candidato.getSenha().length() > 8) {
+//            response.setOperacao("cadastrarCandidato");
+//            response.setStatus(404);
+//            response.setMensagem("senha nao permitida");
+//            return gson.toJson(response);
+//        }
+//
+//        if((!candidato.getEmail().contains("@"))){
+//            response.setOperacao("cadastrarCandidato");
+//            response.setStatus(404);
+//            response.setMensagem("E-mail inválido");
+//            return gson.toJson(response);
+//        }
+//
+//        if(!candidato.getNome().matches("^[a-zA-ZÀ-ÿ\\s]+$")) {
+//            response.setOperacao("cadastrarCandidato");
+//            response.setStatus(404);
+//            response.setMensagem("Nome invalido");
+//            return gson.toJson(response);
+//        }
+//
+//        if (!candidato.getSenha().matches("^[0-9]+$")) {
+//            response.setOperacao("cadastrarCandidato");
+//            response.setStatus(404);
+//            response.setMensagem("Senha inválida. Deve conter apenas números.");
+//            return new Gson().toJson(response);
+//        }
 
         if(isLogado == 0){
             response.setOperacao("visualizarCandidato");
@@ -298,7 +294,6 @@ public class CandidatoDAO {
         Gson gson = new Gson();
 
         if(candidatoId == -1){
-            System.out.print("Nenhum candidato encontrado.");
             response.setOperacao("apagarCandidato");
             response.setStatus(404);
             response.setMensagem("E-mail não encontrado");
@@ -329,7 +324,7 @@ public class CandidatoDAO {
     }
 
     public String login(Candidato candidato) throws SQLException {
-        int candidatoId = getCandidato(candidato);
+        int candidatoId = checkUser(candidato);
         int isLogado = isCandidatoLogado(candidato);
         UUID uuid = UUID.randomUUID();
         Response response = new Response();
@@ -339,7 +334,6 @@ public class CandidatoDAO {
             response.setOperacao("loginCandidato");
             response.setStatus(401);
             response.setMensagem("Login ou senha incorretos");
-            System.out.println(gson.toJson(response));
             return gson.toJson(response);
         }
 
@@ -377,8 +371,9 @@ public class CandidatoDAO {
         Response response = new Response();
 
         if(candidatoId == -1 ){
-            System.out.print("Nenhum candidato encontrado.");
-            return "nenhum candidato encontrado";
+            response.setOperacao("logout");
+            response.setStatus(404);
+            return gson.toJson(response);
         }
 
         PreparedStatement st = null;
@@ -394,7 +389,31 @@ public class CandidatoDAO {
 
         response.setOperacao("logout");
         response.setStatus(204);
-        System.out.println(gson.toJson(response));
         return gson.toJson(response);
+    }
+
+    public int checkUser(Candidato candidato) throws SQLException{
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        int candidatoId = -1;
+
+        try {
+            st = conn.prepareStatement("select * from candidato where email = ? and senha = ?");
+            st.setString(1, candidato.getEmail());
+            st.setString(2, candidato.getSenha());
+
+            rs = st.executeQuery();
+
+            if (rs.next()) {
+                candidatoId = rs.getInt("id");
+            }
+
+        } finally {
+            BancoDados.finalizarStatement(st);
+            BancoDados.finalizarResultSet(rs);
+        }
+
+        return candidatoId;
     }
 }

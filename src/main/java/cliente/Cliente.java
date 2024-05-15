@@ -26,20 +26,23 @@ public class Cliente {
             JSONParser parser = new JSONParser();
             Gson gson = new Gson();
 
-            Requisicao requisicao = new Requisicao();
+
+            Logout logout = new Logout();
+            Login login = new Login();
             String token = "";
             String  nome = "", email = "", senha = "", emailCandidato = "";
             //implementar logica para saber se o cliente está logado
             //turma precisa decidir oq fazer com o token
             boolean logado = false;
             while(true) {
+                Requisicao requisicao = new Requisicao();
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
                 System.out.println("1.Login - 2.Logout - 3.Cadastrar - 4.Visualizar - 5.Atualizar - 6.Deletar");
                 int opcao = scanner.nextInt();
                 switch (opcao){
                     case 1:
-                        Login login = new Login();
+
                         System.out.println("Email: ");
                         scanner.nextLine();
                         email = scanner.nextLine();
@@ -52,7 +55,7 @@ public class Cliente {
                         break;
 
                     case 2:
-                        Logout logout = new Logout();
+
                         logout.setOperacao("logout");
                         logout.setToken(token);
                         out.println(gson.toJson(logout));
@@ -94,22 +97,28 @@ public class Cliente {
                         break;
 
                     case 6:
-//                        System.out.println("Email: ");
-//                        scanner.nextLine();
-//                        email = scanner.nextLine();
                         requisicao.setEmail(emailCandidato);
                         requisicao.setOperacao("apagarCandidato");
                         out.println(gson.toJson(requisicao));
                         break;
 
                     case 7:
-                        out.println("");
                         clientSocket.close();
                         return;
 
                     default:
                         System.out.println("Opção inválida!");
                         break;
+                }
+
+                if(opcao == 2){
+                    System.out.println("Mensagem enviada para o servidor: " + gson.toJson(logout));
+                }
+                if(opcao == 1) {
+                    System.out.println("Mensagem enviada para o servidor: " + gson.toJson(login));
+                }
+                if(opcao > 2){
+                    System.out.println("Mensagem enviada para o servidor: " + gson.toJson(requisicao));
                 }
 
                 String mensagemRecebida = in.readLine();
@@ -124,6 +133,7 @@ public class Cliente {
                     Long status = (Long) jsonObject.get("status");
                     if(status == 200) {
                         emailCandidato = email;
+                        nome = "";
                         logado = true;
                     }
                 }
@@ -135,11 +145,10 @@ public class Cliente {
                         logado = true;
                     }
                 }
-                System.out.println("Mensagem do servidor: " + mensagemRecebida);
-//                out.close();
-//                in.close();
+
+                System.out.println("Mensagem recebida do servidor: " + mensagemRecebida);
             }
-        } catch(IOException e) {
+        } catch(Exception e) {
             e.printStackTrace();
         }
     }

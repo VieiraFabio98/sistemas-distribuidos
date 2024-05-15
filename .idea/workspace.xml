@@ -5,10 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="15784023-d278-4da5-b0f7-d2705c7b8f16" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/sistemas/servidor/handler/HandleErros.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cliente/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cliente/Cliente.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/sistemas/servidor/ServidorTCP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sistemas/servidor/ServidorTCP.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/sistemas/servidor/dao/CandidatoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sistemas/servidor/dao/CandidatoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/sistemas/servidor/handler/HandleRequisitions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sistemas/servidor/handler/HandleRequisitions.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

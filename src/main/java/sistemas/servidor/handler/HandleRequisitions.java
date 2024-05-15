@@ -37,12 +37,17 @@ public class HandleRequisitions {
 
     public static String cadastrarCandidato(String jsonCandidato) throws SQLException, IOException {
         Gson gson = new Gson();
-        Candidato candidato = gson.fromJson(jsonCandidato, Candidato.class);
 
-        Connection conn = BancoDados.conectar();
-        String response = new CandidatoDAO(conn).cadastrar(candidato);
+        try (Connection conn = BancoDados.conectar()) {
+            Candidato candidato = gson.fromJson(jsonCandidato, Candidato.class);
+            String errorResponse = new HandleErros().handleErrors(candidato);
 
-        return response;
+            if (!errorResponse.isEmpty()) {
+                return errorResponse;
+            }
+
+            return new CandidatoDAO(conn).cadastrar(candidato);
+        }
     }
 
     public static String visualizarCandidato(String jsonCandidato) throws SQLException, IOException {
@@ -57,12 +62,16 @@ public class HandleRequisitions {
 
     public static String atualizarCandidato(String jsonCandidato) throws SQLException, IOException {
         Gson gson = new Gson();
-        Candidato candidato = gson.fromJson(jsonCandidato, Candidato.class);
+        try (Connection conn = BancoDados.conectar()) {
+            Candidato candidato = gson.fromJson(jsonCandidato, Candidato.class);
+            String errorResponse = new HandleErros().handleErrors(candidato);
 
-        Connection conn = BancoDados.conectar();
-        String response = new CandidatoDAO(conn).atualizar(candidato);
+            if (!errorResponse.isEmpty()) {
+                return errorResponse;
+            }
 
-        return response;
+            return new CandidatoDAO(conn).atualizar(candidato);
+        }
     }
 
     public static String excluirCandidato(String jsonCandidato) throws  SQLException, IOException {

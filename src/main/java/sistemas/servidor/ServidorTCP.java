@@ -33,7 +33,13 @@ public class ServidorTCP {
 
             while (serverOn) {
 //                PrintWriter out = new PrintWriter(connectionSocket.getOutputStream(), true);
+
                 String jsonCliente = in.readLine();
+//                if(jsonCliente == null) {
+//                    continue;
+//                }
+
+                System.out.print("-----------------------------------\n");
                 System.out.println("Mensagem do Cliente: " + jsonCliente);
 
                 String response = jsonCliente;
@@ -62,9 +68,9 @@ public class ServidorTCP {
                     response = handle.visualizarCandidato(jsonCliente);
                 }
 
-                if(jsonCliente.isEmpty()) {
-                    break;
-                }
+//                if(jsonCliente.isEmpty()) {
+//                    break;
+//                }
 
                 System.out.println("Responsta do servidor: " + response);
                 out.println(response);
@@ -75,7 +81,8 @@ public class ServidorTCP {
             in.close();
             outClient.close();
             connectionSocket.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
             System.out.print("Conexão finalizada - " + host + "\n");
             startServer();
         }
